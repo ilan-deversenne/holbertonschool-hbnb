@@ -94,5 +94,48 @@ class TestUserEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data.get('error', None), 'Invalid input data')
 
+    def test_get_by_id(self):
+        response = self.client.post('/api/v1/reviews/', json={
+            'text': f'Good rate',
+            'rating': 4,
+            'place_id': self.place['id'],
+            'user_id': self.user['id']
+        })
+        review = response.json
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.get(f'/api/v1/reviews/{review["id"]}')
+        data = response.json
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(True if 'id' in data.keys() else False)
+        self.assertEqual(data.get('text', None), 'Good rate')
+        self.assertEqual(data.get('rating', None), 4)
+        self.assertEqual(data.get('place_id', None), review['place_id'])
+        self.assertEqual(data.get('user_id', None), review['user_id'])
+
+    def test_delete(self):
+        response = self.client.post('/api/v1/reviews/', json={
+            'text': f'Good rate',
+            'rating': 4,
+            'place_id': self.place['id'],
+            'user_id': self.user['id']
+        })
+        review = response.json
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.delete(f'/api/v1/reviews/{review["id"]}')
+        data = response.json
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data.get('message', None), 'Review deleted')
+
+    def test_delete_with_bad_id(self):
+        response = self.client.delete(f'/api/v1/reviews/{uuid4()}')
+        self.assertEqual(response.status_code, 404)
+
+
 if __name__ == '__main__':
     unittest.main()
