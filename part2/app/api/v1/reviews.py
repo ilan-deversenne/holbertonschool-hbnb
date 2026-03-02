@@ -120,6 +120,9 @@ class ReviewResource(Resource):
         if not place:
             return {'error': 'Invalid input data'}, 400
 
+        if facade.get_user(data['user_id']) == None:
+            return {'error': 'Invalid input data'}, 400
+
         facade.update_review(review_id, data)
 
     @api.response(200, 'Review deleted successfully')
