@@ -88,7 +88,7 @@ class ReviewResource(Resource):
             }
 
         reviews = facade.get_reviews_by_place(review_id)
-        if not review and len(reviews) == 0:
+        if not review or len(reviews) == 0:
             return {'error': 'Review not found'}, 404
 
         return [{
