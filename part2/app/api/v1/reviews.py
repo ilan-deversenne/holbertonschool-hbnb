@@ -125,6 +125,8 @@ class ReviewResource(Resource):
 
         facade.update_review(review_id, data)
 
+        return {'message': 'Review updated successfully'}
+
     @api.response(200, 'Review deleted successfully')
     @api.response(404, 'Review not found')
     def delete(self, review_id):
