@@ -86,3 +86,22 @@ class UserResource(Resource):
             'updated_at': int(datetime.timestamp(user.updated_at)),
             'created_at': int(datetime.timestamp(user.created_at))
         }, 200
+
+    @api.response(200, 'User has been updated')
+    @api.response(404, 'User not found')
+    def put(self, user_id):
+        data = api.payload
+
+        user = facade.get_user(user_id)
+        if not user:
+            return {'error': 'User not found'}, 404
+
+        user = facade.update_user(user_id, data)
+        return {
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'updated_at': int(datetime.timestamp(user.updated_at)),
+            'created_at': int(datetime.timestamp(user.created_at))
+        }, 200
