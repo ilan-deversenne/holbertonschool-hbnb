@@ -1,0 +1,3 @@
+ - ajouter la methode get et put pour retrieve tout les users
+ - initialiser le rating à 1 pas à 0 et faire en sorte que la note soit de 1 à 5
+ - 
