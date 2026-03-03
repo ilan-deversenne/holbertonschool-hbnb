@@ -46,7 +46,8 @@ try:
             "price": 100.0,
             "latitude": 37.7749,
             "longitude": -122.4194,
-            "owner_id": user['id']
+            "owner_id": user['id'],
+            "amenities": []
         }
     )
     if req.status_code == 201:
