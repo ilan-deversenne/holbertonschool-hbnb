@@ -57,6 +57,9 @@ class HBnBFacade:
         self.user_repo.add(user)
         return user
 
+    def get_all_users(self) -> dict[User]:
+        return self.user_repo.get_all()
+
     def get_user(self, user_id: str) -> User:
         return self.user_repo.get(user_id)
 
