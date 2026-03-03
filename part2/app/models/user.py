@@ -19,17 +19,10 @@ class User(BaseModel):
         :param email: email that respect the email validator
         :param is_admin: bool that is set to false by default
         """
-
-        if len(first_name.strip()) < 3 or len(last_name.strip()) < 3:
-            raise BadRequest('Invalid input data')
-
-        if not self.__check_email_regex(email):
-            raise BadRequest('Invalid input data')
-
         super().__init__()
-        self.__first_name = first_name
-        self.__last_name = last_name
-        self.__email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
         self.is_admin = is_admin
         self.places_owned = []
 
