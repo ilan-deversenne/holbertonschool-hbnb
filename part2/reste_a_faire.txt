@@ -1,3 +1,6 @@
  - ajouter la methode get et put pour retrieve tout les users
  - initialiser le rating à 1 pas à 0 et faire en sorte que la note soit de 1 à 5
- - 
+ - Les validations sont implémentées dans la couche API (longueur max 50 caractères, format email avec regex, unicité de l'email). Cependant, pour une architecture plus robuste, il serait préférable d'avoir ces validations dans la classe User elle-même.
+ - Comme pour User, il serait idéal d'avoir les validations aussi dans la classe Place,
+ - L'attribut name est présent avec le bon type. Une validation est présente dans la méthode PUT de l'API pour vérifier que le nom n'est pas vide et a au moins 2 caractères. Cependant, il manque la validation de la longueur maximale (50 caractères) et la validation lors de la création (POST).
+ -
