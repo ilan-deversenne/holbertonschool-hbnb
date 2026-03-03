@@ -59,6 +59,32 @@ class TestUserClass(unittest.TestCase):
 
         self.assertTrue(False)
 
+    def test_create_bad_user4(self):
+        """
+        Test to create user with too long first_name
+
+        :param self: instance of the class
+        """
+        try:
+            User("Johnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn", "Doe", "invalid-email")
+        except BadRequest:
+            return self.assertTrue(True)
+
+        self.assertTrue(False)
+
+    def test_create_bad_user5(self):
+        """
+        Test to create user with too long last_name
+
+        :param self: instance of the class
+        """
+        try:
+            User("John", "Doeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "invalid-email")
+        except BadRequest:
+            return self.assertTrue(True)
+
+        self.assertTrue(False)
+
     def test_update_with_bad_firstname(self):
         """
         Test to create user and update first_name with bad first_name
