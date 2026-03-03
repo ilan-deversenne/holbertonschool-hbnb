@@ -3,4 +3,29 @@
  - Les validations sont implémentées dans la couche API (longueur max 50 caractères, format email avec regex, unicité de l'email). Cependant, pour une architecture plus robuste, il serait préférable d'avoir ces validations dans la classe User elle-même.
  - Comme pour User, il serait idéal d'avoir les validations aussi dans la classe Place,
  - L'attribut name est présent avec le bon type. Une validation est présente dans la méthode PUT de l'API pour vérifier que le nom n'est pas vide et a au moins 2 caractères. Cependant, il manque la validation de la longueur maximale (50 caractères) et la validation lors de la création (POST).
- -
+ 
+
+taff sur place (endpoints / model / facade)
+- L'endpoint POST /api/v1/places/ fonctionne mais il manque la validation des 
+  amenities IDs (vérifier qu'ils existent) et la liste des amenities n'est pas 
+  retournée dans la réponse de création.
+
+- La validation du owner_id est correcte, mais il manque la validation des amenities
+  IDs. Si un amenity_id n'existe pas, le système va planter au lieu de retourner une 
+  erreur 400.
+
+- L'endpoint GET /api/v1/places/<place_id> retourne bien toutes les données requises 
+  (owner et amenities), mais il manque la gestion d'erreur si le place_id n'existe pas 
+  (devrait retourner 404).
+
+- L'endpoint GET /api/v1/places/<place_id> ne gère pas le cas où le place n'existe pas.
+  Il faut ajouter une vérification 'if place is None' et retourner un code 404 avec un 
+  message d'erreur.
+
+- L'endpoint PUT /api/v1/places/<place_id> valide correctement les données et vérifie 
+  l'existence du place, mais il devrait retourner les données complètes du place mis à 
+  jour incluant le timestamp updated_at.
+
+- Le Facade est bien structuré avec toutes les méthodes requises et gère les relations 
+  User/Amenity. Cependant, il manque la validation des amenities IDs (vérifier qu'ils 
+  existent) pour éviter des erreurs.
