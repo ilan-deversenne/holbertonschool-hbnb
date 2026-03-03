@@ -57,6 +57,18 @@ class UserList(Resource):
             'created_at': int(datetime.timestamp(new_user.created_at))
         }, 201
 
+    @api.response(200, 'User retrieved successfully')
+    @api.response(404, 'User not found')
+    def get(self):
+        return [{
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'updated_at': int(datetime.timestamp(user.updated_at)),
+            'created_at': int(datetime.timestamp(user.created_at))
+        } for user in facade.get_all_users()]
+
 @api.route('/<user_id>')
 class UserResource(Resource):
     @api.response(200, 'User details retrieved successfully')
