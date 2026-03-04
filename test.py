@@ -59,7 +59,7 @@ except Exception as e:
     print(e)
 
 try:
-    rate = randint(0, 5)
+    rate = randint(1, 5)
 
     word = 'good'
     if rate < 3:
@@ -111,7 +111,6 @@ try:
     req = requests.get(
         f"{url}/places/{place['id']}"
     )
-    print(req.status_code, req.text)
 
     if req.status_code == 200:
         fetch_place = req.json()
