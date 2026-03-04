@@ -84,6 +84,37 @@ use the command : ```pip install -r requirments.txt```
     - Werkzeug==3.1.6
     - zipp==3.23.0
 
+## Test API (with curl)
+
+### Create user
+```
+curl -X POST http://localhost:5000/api/v1/users/ \
+  -H "Content-Type: application/json" \
+  -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
+```
+
+### Create amenity
+```
+curl -X POST http://localhost:5000/api/v1/amenities/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Wi-fi"}'
+```
+
+### Create place
+```
+curl -X POST http://localhost:5000/api/v1/places/ \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Cozy Apartment", "description": "A nice place to stay", "price": 100.0, "latitude": 37.7749, "longitude": -122.4194, "owner_id": "[REPLACE OWNER_ID]"}'
+```
+
+### Create review
+```
+curl -X POST http://localhost:5000/api/v1/reviews/ \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Great place to stay!", "rating": 5, "user_id": "[REPLACE USER_ID]", "place_id": "[REPLACE PLACE_ID]"}'
+```
+#### You can also test it on an API tester such as Postman
+
 
 ## Authors
 
