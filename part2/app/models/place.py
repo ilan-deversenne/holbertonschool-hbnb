@@ -21,54 +21,54 @@ class Place(BaseModel):
 
     @property
     def title(self):
-        return self._title
+        return self.__title
 
     @title.setter
     def title(self, value):
         if not value or len(value.strip()) < 3 or len(value.strip()) > 100:
             raise BadRequest('Invalid input data')
-        self._title = value.strip()
+        self.__title = value.strip()
 
     @property
     def description(self):
-        return self._description
+        return self.__description
 
     @description.setter
     def description(self, value):
         if not value or len(value) > 500:
-            self._description = ""
+            self.__description = ""
         else:
-            self._description = value
+            self.__description = value
 
     @property
     def price(self):
-        return self._price
+        return self.__price
 
     @price.setter
     def price(self, value):
-        if not isinstance(value, (int, float)) or value < 0 or value > 1.0e12:
+        if not type(value) in (int, float) or value < 0 or value > 1.0e12:
             raise BadRequest('Invalid input data')
-        self._price = float(value)
+        self.__price = value
 
     @property
     def latitude(self):
-        return self._latitude
+        return self.__latitude
 
     @latitude.setter
     def latitude(self, value):
-        if not isinstance(value, (int, float)) or value < -90 or value > 90:
+        if not type(value) in (int, float) or value < -90 or value > 90:
             raise BadRequest('Invalid input data')
-        self._latitude = float(value)
+        self.__latitude = float(value)
 
     @property
     def longitude(self):
-        return self._longitude
+        return self.__longitude
 
     @longitude.setter
     def longitude(self, value):
-        if not isinstance(value, (int, float)) or value < -180 or value > 180:
+        if not type(value) in (int, float) or value < -180 or value > 180:
             raise BadRequest('Invalid input data')
-        self._longitude = float(value)
+        self.__longitude = float(value)
 
     @property
     def owner_id(self):
