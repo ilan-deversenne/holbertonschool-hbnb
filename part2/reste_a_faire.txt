@@ -1,3 +1,5 @@
 -question à mathieu :
 
 - est-ce que le validation = true est bon ou est-ce qu'on les retire de nos routes dans le API
+
+- est-ce qu'il faut qu'il y ait plus de edge case dans la doc et / ou plus de test unitest sur les models (surtout place)
