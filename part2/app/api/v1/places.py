@@ -18,7 +18,7 @@ place_model = api.model('Place', {
 @api.route('/')
 class PlaceList(Resource):
 
-    @api.expect(place_model, validate=True)
+    @api.expect(place_model)
     @api.response(201, 'Place successfully created')
     @api.response(400, 'Invalid input data')
     def post(self):
@@ -96,7 +96,7 @@ class PlaceResource(Resource):
             'updated_at': int(datetime.timestamp(place.updated_at))
         }
 
-    @api.expect(place_model, validate=True)
+    @api.expect(place_model)
     @api.response(200, 'Place updated successfully')
     @api.response(404, 'Place not found')
     @api.response(400, 'Invalid input data')
