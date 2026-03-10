@@ -45,7 +45,7 @@ class UserList(Resource):
     def get(self):
         actual_user = get_jwt_identity()
         if not actual_user:
-            return {'error': 'unauthorized user'}, 401
+            return {'error': 'Unauthorized user'}, 401
 
         return [{
             'id': user.id,
@@ -65,7 +65,7 @@ class UserResource(Resource):
         """Get user details by ID"""
         actual_user = get_jwt_identity()
         if not actual_user:
-            return {'error': 'unauthorized user'}, 401
+            return {'error': 'Unauthorized user'}, 401
 
         try:
             user = facade.get_user(user_id)
@@ -90,7 +90,7 @@ class UserResource(Resource):
 
         actual_user = get_jwt_identity()
         if not actual_user:
-            return {'error': 'unauthorized user'}, 401
+            return {'error': 'Unauthorized user'}, 401
 
         try:
             user = facade.update_user(user_id, data)
