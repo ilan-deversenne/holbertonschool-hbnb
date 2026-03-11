@@ -1,21 +1,24 @@
 #!/usr/bin/python3
 
+from app.services.repositories.user_repository import UserRepository
 from app.persistence.repository import InMemoryRepository
-from app.models.place import Place, User
-from app.models.review import Review
-from app.models.amenity import Amenity
-
 from app.api.exceptions import BadRequest, NotFound
+from app.models.place import Place, User
+from app.models.amenity import Amenity
+from app.models.review import Review
 
 
 class HBnBFacade:
     def __init__(self):
-        self.user_repo = InMemoryRepository()
+        self.user_repo = UserRepository()
         self.place_repo = InMemoryRepository()
         self.review_repo = InMemoryRepository()
         self.amenity_repo = InMemoryRepository()
 
-   ## Place
+
+    ##############################################
+    ##                  Place                   ##
+    ##############################################
 
     def create_place(self, place_data):
         owner = self.user_repo.get(place_data['owner_id'])
@@ -85,13 +88,16 @@ class HBnBFacade:
         self.place_repo.update(place_id, place)
 
 
+    ##############################################
+    ##                  User                    ##
+    ##############################################
 
-    ## User
     def create_user(self, user_data):
         if self.user_repo.get_by_attribute('email', user_data['email']):
             raise BadRequest('Email already registered')
 
         user = User(**user_data)
+        user.hash_password(user_data['password'])
         self.user_repo.add(user)
 
         return user
@@ -118,7 +124,11 @@ class HBnBFacade:
     def get_user_by_email(self, email: str) -> User:
         return self.user_repo.get_by_attribute('email', email)
 
-    ## Amenity
+
+    ##############################################
+    ##                 Amenity                  ##
+    ##############################################
+
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
         self.amenity_repo.add(amenity)
@@ -144,7 +154,10 @@ class HBnBFacade:
 
         return amenity
 
-    ## Review
+
+    ##############################################
+    ##                 Review                   ##
+    ##############################################
 
     def create_review(self, review_data: dict):
         review_data['user'] = self.user_repo.get(review_data['user_id'])

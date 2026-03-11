@@ -1,10 +1,31 @@
 #!/usr/bin/env python3
 
-from app.models.base_model import BaseModel
+from app.models.baseclass import BaseModel
 from app.api.exceptions import BadRequest
 from app import db, bcrypt
 from re import match
 
+
+class User(BaseModel):
+    __tablename__ = 'users'
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
+
+    def hash_password(self, password):
+        """Hash the password before storing it."""
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def verify_password(self, password):
+        """Verify the hashed password."""
+        return bcrypt.check_password_hash(self.password, password)
+
+
+
+'''
 
 class User(BaseModel):
     """
@@ -19,8 +40,7 @@ class User(BaseModel):
     password = db.Column(db.String(128), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
-    # we will have to import an email validator (maybe regex)
-    def __init__(self, first_name: str, last_name: str, email: str, is_admin: bool=False):
+    def __init__(self, first_name: str, last_name: str, email: str, password: str, is_admin: bool=False):
         """
         Docstring for __init__
 
@@ -39,36 +59,36 @@ class User(BaseModel):
 
     @property
     def first_name(self):
-        return self.__first_name
+        return self.first_name
 
     @first_name.setter
     def first_name(self, value: str):
         if len(value.strip()) < 3 or len(value.strip()) > 50:
             raise BadRequest('Invalid input data')
 
-        self.__first_name = value
+        self.first_name = value
 
     @property
     def last_name(self):
-        return self.__last_name
+        return self.last_name
 
     @last_name.setter
     def last_name(self, value: str):
         if len(value.strip()) < 3 or len(value.strip()) > 50:
             raise BadRequest('Invalid input data')
 
-        self.__last_name = value
+        self.last_name = value
 
     @property
     def email(self):
-        return self.__email
+        return self.email
 
     @email.setter
     def email(self, value: str):
         if not self.__check_email_regex(value):
             raise BadRequest('Invalid input data')
 
-        self.__email = value
+        self.email = value
 
     def __check_email_regex(self, email: str) -> bool:
         """
@@ -87,3 +107,5 @@ class User(BaseModel):
     def verify_password(self, password):
         """Verifies if the provided password matches the hashed password."""
         return bcrypt.check_password_hash(self.password, password)
+
+'''
