@@ -25,18 +25,20 @@ class UserList(Resource):
 
         try:
             new_user = facade.create_user(user_data)
+            return {
+                'id': new_user.id,
+                'first_name': new_user.first_name,
+                'last_name': new_user.last_name,
+                'email': new_user.email,
+                'updated_at': int(datetime.timestamp(new_user.updated_at)),
+                'created_at': int(datetime.timestamp(new_user.created_at))
+            }, 201
+
         except Exception as e:
+            print(e)
+
             if hasattr(e, 'httpcode'):
                 return {'error': str(e)}, e.httpcode
-
-        return {
-            'id': new_user.id,
-            'first_name': new_user.first_name,
-            'last_name': new_user.last_name,
-            'email': new_user.email,
-            'updated_at': int(datetime.timestamp(new_user.updated_at)),
-            'created_at': int(datetime.timestamp(new_user.created_at))
-        }, 201
 
     @api.response(200, 'User retrieved successfully')
     @api.response(404, 'User not found')
