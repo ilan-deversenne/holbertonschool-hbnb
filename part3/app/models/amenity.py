@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 
-from app.models.base_model import BaseModel
+from app.models.baseclass import BaseModel
 from app.api.exceptions import BadRequest
+from sqlalchemy.orm import validates
+from app import db
+
 
 class Amenity(BaseModel):
     """
     Docstring: Class Amenity
     """
+
+    __tablename__ = 'amenities'
+
+    name = db.Column(db.String(50), nullable=False)
+
     def __init__(self, name: str):
         """
         Methode __init__
@@ -16,13 +24,9 @@ class Amenity(BaseModel):
         super().__init__()
         self.name = name
 
-    @property
-    def name(self):
-        return self.__name
-    
-    @name.setter
-    def name(self, value):
+    @validates("name")
+    def validate_name(self, value):
         if not value or len(value) < 3 or len(value) > 50:
             raise BadRequest('Invalid input data')
 
-        self.__name = value
+        return value
