@@ -28,6 +28,12 @@ class ReviewList(Resource):
         actual_user = get_jwt_identity()
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
+        
+        # user can't review is own place
+        if actual_user == data.user_id:
+            return {'error': 'You cannot review your own place.'}, 400
+        
+        # verify the user has not already review the place
 
         def test(pair):
             key, value = pair
@@ -123,6 +129,9 @@ class ReviewResource(Resource):
         actual_user = get_jwt_identity()
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
+        
+        if actual_user != data.user_id:
+            return {'error': 'Unauthorized action.'}, 403
 
         try:
             review = facade.update_review(review_id, data)
@@ -141,6 +150,10 @@ class ReviewResource(Resource):
         actual_user = get_jwt_identity()
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
+        
+        if actual_user != facade.get_review(review_id).user_id:
+            return {'error': 'Unauthorized action.'}, 403
+
         try:
             facade.delete_review(review_id)
         except Exception as e:
