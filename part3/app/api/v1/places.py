@@ -32,25 +32,27 @@ class PlaceList(Resource):
 
         try:
             place = facade.create_place(api.payload)
+
+            return {
+                'id': place.id,
+                'title': place.title,
+                'description': place.description,
+                'price': place.price,
+                'latitude': place.latitude,
+                'longitude': place.longitude,
+                'owner_id': place.owner.id,
+                'amenities': [
+                    {
+                        'id': amenity.id,
+                        'name': amenity.name
+                    } for amenity in place.amenities
+                ]
+            }, 201
         except Exception as e:
             if hasattr(e, 'httpcode'):
                 return {'error': str(e)}, e.httpcode
+            return {'error': str(e)}, 500
 
-        return {
-            'id': place.id,
-            'title': place.title,
-            'description': place.description,
-            'price': place.price,
-            'latitude': place.latitude,
-            'longitude': place.longitude,
-            'owner_id': place.owner_id,
-            'amenities': [
-                {
-                    'id': amenity.id,
-                    'name': amenity.name
-                } for amenity in place.amenities
-            ]
-        }, 201
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Get all places"""
