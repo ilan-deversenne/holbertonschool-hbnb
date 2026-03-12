@@ -85,6 +85,8 @@ class UserResource(Resource):
         }, 200
 
     @api.response(200, 'User has been updated')
+    @api.response(401, 'Unauthorized user')
+    @api.response(400, 'You cannot modify email or password.')
     @api.response(404, 'User not found')
     @jwt_required()
     def put(self, user_id):
@@ -93,6 +95,16 @@ class UserResource(Resource):
         actual_user = get_jwt_identity()
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
+        
+        # you can't change the email or the password of the user
+        the_user_to_modify = facade.get_user(user_id)
+        if data.email != the_user_to_modify.email or data.password != the_user_to_modify.password:
+            return {'error', 'You cannot modify email or password.'}, 400
+
+
+        # antoher user can't modify someone else
+        if actual_user != data.user_id:
+            return {'error': 'Unauthorized action.'}, 403
 
         try:
             user = facade.update_user(user_id, data)
