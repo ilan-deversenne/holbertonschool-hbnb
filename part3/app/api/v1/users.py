@@ -98,12 +98,12 @@ class UserResource(Resource):
         
         # you can't change the email or the password of the user
         the_user_to_modify = facade.get_user(user_id)
-        if data.email != the_user_to_modify.email or data.password != the_user_to_modify.password:
+        if data['email'] != the_user_to_modify['email'] or data['password'] != the_user_to_modify['password']:
             return {'error', 'You cannot modify email or password.'}, 400
 
 
         # antoher user can't modify someone else
-        if actual_user != data.user_id:
+        if actual_user != data['user_id']:
             return {'error': 'Unauthorized action.'}, 403
 
         try:
