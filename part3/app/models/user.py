@@ -20,7 +20,7 @@ class User(BaseModel):
     email = Column(String(120), nullable=False, unique=True)
     password = Column(String(128), nullable=False)
     is_admin = Column(Boolean, default=False)
-    places_owned = relationship('Place', backref='user', lazy=True)
+    places = relationship('Place', backref='user', lazy=True)
 
     def __init__(self, first_name: str, last_name: str, email: str, password: str, is_admin: bool=False):
         """
