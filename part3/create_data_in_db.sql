@@ -1,7 +1,4 @@
-CREATE DATABASE developpement.db;
-USE DATABASE developpement.db;
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id CHAR(36) DEFAULT UUID,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -11,7 +8,7 @@ CREATE TABLE users (
     PRIMARY KEY(id)
 )
 
-CREATE TABLE places (
+CREATE TABLE IF NOT EXISTS places (
     id CHAR(36) DEFAULT UUID,
     title VARCHAR(255),
     description TEXT,
@@ -23,7 +20,7 @@ CREATE TABLE places (
     FOREIGN KEY (owner_id) REFERENCES users(id)
 )
 
-CREATE TABLE review (
+CREATE TABLE IF NOT EXISTS review (
     id CHAR(36) DEFAULT UUID,
     text TEXT,
     rating INT(1, 5),
@@ -35,7 +32,7 @@ CREATE TABLE review (
     FOREIGN KEY (place_id) REFERENCES places(id)
 )
 
-CREATE TABLE amenities (
+CREATE TABLE IF NOT EXISTS amenities (
     id CHAR(36) DEFAULT UUID,
     name VARCHAR(255) UNIQUE
 )
