@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from app.models.baseclass import BaseModel
 from app.api.exceptions import BadRequest
 from app.models.amenity import Amenity
@@ -11,23 +12,23 @@ from app import db
 class Place(BaseModel):
     __tablename__ = 'places'
 
-    title = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(500), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
+    title = Column(String(100), nullable=False)
+    description = Column(String(500), nullable=False)
+    price = Column(Float, nullable=False)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
+    user_id = Column(String(36), ForeignKey('users.id'), nullable=False)
 
-    def __init__(self, title: str, description: str, price: float, latitude: float, longitude: float, owner: User):
+    def __init__(self, title: str, description: str, price: float, latitude: float, longitude: float, user_id: str):
         super().__init__()
         self.title = title
         self.description = description
         self.price = price
         self.latitude = latitude
         self.longitude = longitude
-        self.owner = owner
+        self.user_id = user_id
         self.reviews = []
         self.amenities = []
-        self.add_place_to_owner()
 
     @validates("title")
     def validate_title(self, key: str, value: str):
@@ -74,6 +75,3 @@ class Place(BaseModel):
     def add_amenities(self, amenities: list[Amenity]):
         for amenity in amenities:
             self.add_amenity(amenity)
-
-    def add_place_to_owner(self):
-        self.owner.places_owned.append(self)

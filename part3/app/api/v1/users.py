@@ -21,6 +21,7 @@ class UserList(Resource):
     @api.response(400, 'Email already registered')
     @api.response(400, 'Invalid input data')
     @api.response(403, 'Admin privileges required')
+    @jwt_required()
     def post(self):
         """Register a new user"""
         user_data = api.payload
@@ -76,18 +77,19 @@ class UserResource(Resource):
 
         try:
             user = facade.get_user(user_id)
+
+            return {
+                'id': user.id,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'updated_at': int(datetime.timestamp(user.updated_at)),
+                'created_at': int(datetime.timestamp(user.created_at))
+            }, 200
+
         except Exception as e:
             if hasattr(e, 'httpcode'):
                 return {'error': str(e)}, e.httpcode
-
-        return {
-            'id': user.id,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'email': user.email,
-            'updated_at': int(datetime.timestamp(user.updated_at)),
-            'created_at': int(datetime.timestamp(user.created_at))
-        }, 200
 
     @api.response(200, 'User has been updated')
     @api.response(401, 'Unauthorized user')

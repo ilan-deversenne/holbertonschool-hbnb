@@ -30,27 +30,33 @@ class PlaceList(Resource):
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
 
+        place = facade.create_place(api.payload)
+
         try:
-            place = facade.create_place(api.payload)
+            
+
+            return {
+                'id': place.id,
+                'title': place.title,
+                'description': place.description,
+                'price': place.price,
+                'latitude': place.latitude,
+                'longitude': place.longitude,
+                'owner_id': place.user_id,
+                'amenities': [
+                    {
+                        'id': amenity.id,
+                        'name': amenity.name
+                    } for amenity in place.amenities
+                ]
+            }, 201
+
         except Exception as e:
+            print(e)
+
             if hasattr(e, 'httpcode'):
                 return {'error': str(e)}, e.httpcode
 
-        return {
-            'id': place.id,
-            'title': place.title,
-            'description': place.description,
-            'price': place.price,
-            'latitude': place.latitude,
-            'longitude': place.longitude,
-            'owner_id': place.owner.id,
-            'amenities': [
-                {
-                    'id': amenity.id,
-                    'name': amenity.name
-                } for amenity in place.amenities
-            ]
-        }, 201
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Get all places"""
@@ -113,7 +119,7 @@ class PlaceResource(Resource):
             return {'error': 'Unauthorized user'}, 401
 
         place = facade.get_place(place_id)
-        if actual_user != place['owner_id']:
+        if actual_user != place['owner_id'] or not actual_user.get('is_admin'):
             return {'error': 'Unauthorized action'}, 403
 
         try:
