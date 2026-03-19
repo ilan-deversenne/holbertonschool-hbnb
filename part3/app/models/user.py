@@ -21,6 +21,7 @@ class User(BaseModel):
     password = Column(String(128), nullable=False)
     is_admin = Column(Boolean, default=False)
     places = relationship('Place', backref='user', lazy=True)
+    reviews = relationship('Review', backref='user', lazy=True)
 
     def __init__(self, first_name: str, last_name: str, email: str, password: str, is_admin: bool=False):
         """
