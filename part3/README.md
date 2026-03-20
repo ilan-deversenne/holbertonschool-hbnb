@@ -11,6 +11,9 @@
 2. **pattern façade**
     **a little description of the use of the pattern façade**
 
+3. **Relationship between element**
+![alt text](<holbertonschool-hbnb/part3/er_diagramm/ER_Diagramm_HBNB.png>)
+
 It is used to be inherited by the other class models, and it implement general functionnalities to all the class
 
     - HBNBFacade
@@ -34,7 +37,9 @@ It is used to be inherited by the other class models, and it implement general f
 1. **endpoints**
     - Users
         - POST /api/v1/users
-        - Get /api/v1/users/{user_id}
+        - GET /api/v1/users
+        - GET /api/v1/users/{user_id}
+        - GET /api/v1/users/{user_id}
     - Places
         - POST /api/v1/places
         - GET /api/v1/places
@@ -88,10 +93,19 @@ use the command : ```pip install -r requirments.txt```
 2. **list of dependencies**
     - aniso8601==10.0.1
     - attrs==25.4.0
+    - bcrypt==5.0.0
     - blinker==1.9.0
+    - certifi==2026.2.25
+    - charset-normalizer==3.4.4
     - click==8.1.8
+    - Faker==37.12.0
     - Flask==3.1.3
+    - Flask-Bcrypt==1.0.1
+    - flask-jwt-extended
     - flask-restx==1.3.2
+    - Flask-SQLAlchemy==3.1.1
+    - greenlet==3.2.5
+    - idna==3.11
     - importlib_metadata==8.7.1
     - importlib_resources==6.5.2
     - itsdangerous==2.2.0
@@ -100,18 +114,25 @@ use the command : ```pip install -r requirments.txt```
     - jsonschema-specifications==2025.9.1
     - MarkupSafe==3.0.3
     - referencing==0.36.2
+    - requests==2.32.5
     - rpds-py==0.27.1
+    - SQLAlchemy==2.0.48
     - typing_extensions==4.15.0
+    - tzdata==2025.3
+    - urllib3==2.6.3
     - Werkzeug==3.1.6
     - zipp==3.23.0
 
 ## Test API (with curl)
 
-### Create user
+### Create a user
 ```
-curl -X POST http://localhost:5000/api/v1/users/ \
-  -H "Content-Type: application/json" \
-  -d '{"first_name": "John", "last_name": "Doe", "email": "john.doe@example.com"}'
+curl -X POST "http://127.0.0.1:5000/api/v1/users/" -H "Content-Type: application/json" -d '{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com",
+  "password": "password123"
+}'
 ```
 
 ### Create amenity
@@ -136,7 +157,6 @@ curl -X POST http://localhost:5000/api/v1/reviews/ \
 ```
 #### You can also test it on an API tester such as Postman
 
-
 ## Authors
 
 Contributors names and contact info
@@ -144,8 +164,7 @@ Contributors names and contact info
 **Name : email**
 - Elliot CHARLET : _charlet.elliot@gmail.com_
 - Ilan DEVERSENNE : _ilan.deversenne@holbertonstudents.com_
-- Robin BOUVIER : _12229@holbertonstudents.com_
 
 ## License
 
-This project is licensed under the [ELLIOT CHARLET and ILAN DEVERSENNE and ROBIN BOUVIER] License
+This project is licensed under the [ELLIOT CHARLET and ILAN DEVERSENNE] License
