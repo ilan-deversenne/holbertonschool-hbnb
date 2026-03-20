@@ -12,7 +12,7 @@
     **a little description of the use of the pattern façade**
 
 3. **Relationship between element**
-![alt text](<holbertonschool-hbnb/part3/er_diagramm/ER_Diagramm_HBNB.png>)
+![alt text](<../part3/er_diagramm/ER_Diagramm_HBNB.png>)
 
 It is used to be inherited by the other class models, and it implement general functionnalities to all the class
 
