@@ -9,9 +9,9 @@ from app.models.user import User
 from app import db
 
 # Table for relationship between place and amenity
-place_amenity = Table('place_amenity',
+place_amenity = Table('place_amenity', db.metadata,
     Column('place_id', String(36), ForeignKey('places.id'), primary_key=True),
-    Column('amentiry_id', String(36), ForeignKey('amenities.id'), primary_key=True)
+    Column('amenity_id', String(36), ForeignKey('amenities.id'), primary_key=True)
 )
 
 
