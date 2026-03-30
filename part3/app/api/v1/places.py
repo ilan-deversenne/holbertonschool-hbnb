@@ -119,7 +119,7 @@ class PlaceResource(Resource):
             return {'error': 'Unauthorized user'}, 401
 
         place = facade.get_place(place_id)
-        if actual_user != place['owner_id'] and not actual_user.get('is_admin'):
+        if actual_user != place['owner_id'] or not actual_user.get('is_admin'):
             return {'error': 'Unauthorized action'}, 403
 
         try:
