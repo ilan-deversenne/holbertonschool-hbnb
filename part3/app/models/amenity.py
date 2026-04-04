@@ -25,7 +25,7 @@ class Amenity(BaseModel):
         self.name = name
 
     @validates("name")
-    def validate_name(self, value):
+    def validate_name(self, key, value):
         if not value or len(value) < 3 or len(value) > 50:
             raise BadRequest('Invalid input data')
 
