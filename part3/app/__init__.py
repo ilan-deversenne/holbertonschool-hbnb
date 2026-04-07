@@ -3,6 +3,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_restx import Api
+from flask_cors import CORS
 from flask import Flask
 import config
 from flask_jwt_extended import JWTManager
@@ -21,6 +22,7 @@ def create_app(config_class=config.DevelopmentConfig):
     from app.api.v1.auth import api as login_ns
 
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(config_class)
     api = Api(app, version='1.0', title='HBnB API', description='HBnB Application API', doc='/api/v1/')
 
