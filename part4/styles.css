@@ -25,7 +25,7 @@ nav {
     display: flex;
 }
 nav a {
-    color: #fff;
+    color: #000;
     text-decoration: none;
     margin-left: 1rem;
 }
@@ -52,7 +52,7 @@ nav a {
     padding: 0.5rem;
     font-size: 1rem;
     background-color: #ff4949;
-    color: #fff;
+    color: #000;
     border: none;
     cursor: pointer;
     margin-left: auto;
