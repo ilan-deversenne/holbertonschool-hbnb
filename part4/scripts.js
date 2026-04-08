@@ -45,4 +45,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      localStorage.setItem('theme', localStorage.getItem('theme') === 'dark' ? 'light' : 'dark');
+      document.body.classList.toggle('dark');
+
+      let img = themeToggle.querySelector('img');
+      if (img) {
+        if (document.body.classList.contains('dark')) {
+          img.src = 'images/moon.png';
+        }else {
+          img.src = 'images/sun.png';
+        }
+      }
+    });
+  }
+  if (localStorage.getItem('theme') === 'dark') {
+    img = themeToggle.querySelector('img');
+    document.body.classList.add('dark');
+    if (img) {
+      img.src = 'images/moon.png';
+    }
+  }
+
 });
