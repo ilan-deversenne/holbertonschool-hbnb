@@ -8,6 +8,7 @@ from flask import Flask
 import config
 from flask_jwt_extended import JWTManager
 import datetime
+from flask_cors import CORS
 
 jwt = JWTManager()
 
