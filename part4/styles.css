@@ -124,3 +124,10 @@ nav a {
     border: none;
     background-color: transparent;
 }
+
+.login-button {
+    padding: 11px 16px;
+    color: #fff;
+    border-radius: 6px;
+    background-color: #7a50ee;
+}
