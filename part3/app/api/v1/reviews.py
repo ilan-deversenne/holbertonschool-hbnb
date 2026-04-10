@@ -28,11 +28,11 @@ class ReviewList(Resource):
         actual_user = get_jwt_identity()
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
-        
+
         # user can't review is own place
-        if actual_user == data.user_id:
+        if actual_user == data['user_id']:
             return {'error': 'You cannot review your own place.'}, 400
-        
+
         # verify the user has not already review the place
 
         def test(pair):
@@ -41,19 +41,23 @@ class ReviewList(Resource):
 
         try:
             review = facade.create_review(dict(filter(test, data.items())))
+
+            return {
+                'id': review.id,
+                'text': review.text,
+                'rating': review.rating,
+                'user_id': review.user.id,
+                'place_id': review.place.id,
+                'updated_at': int(datetime.timestamp(review.updated_at)),
+                'created_at': int(datetime.timestamp(review.created_at))
+            }, 201
         except Exception as e:
+            print(e)
+
             if hasattr(e, 'httpcode'):
                 return {'error': str(e)}, e.httpcode
 
-        return {
-            'id': review.id,
-            'text': review.text,
-            'rating': review.rating,
-            'user_id': review.user.id,
-            'place_id': review.place.id,
-            'updated_at': int(datetime.timestamp(review.updated_at)),
-            'created_at': int(datetime.timestamp(review.created_at))
-        }, 201
+        return {}
 
     @api.response(200, 'List of reviews retrieved successfully')
     @api.response(401, 'Unauthorized user')
