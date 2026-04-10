@@ -66,8 +66,8 @@ class PlaceList(Resource):
         return [{
             'id': place.id,
             'title': place.title,
-            'description': place.description
-            'price': place.price
+            'description': place.description,
+            'price': place.price,
             'latitude': place.latitude,
             'longitude': place.longitude,
             'created_at': int(datetime.timestamp(place.created_at)),
