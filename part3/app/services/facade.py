@@ -184,10 +184,10 @@ class HBnBFacade:
     def get_all_reviews(self) -> dict:
         return self.review_repo.get_all()
 
-    def get_reviews_by_place(self, place_id):
+    def get_reviews_by_place(self, place_id: str):
         result = []
-        for review in self.get_all_reviews:
-            if review['place_id'] == place_id:
+        for review in self.review_repo.get_all():
+            if review.place_id == place_id:
                 result.append(review)
 
         return result
