@@ -112,6 +112,7 @@ nav a {
 .place-card {
     margin: 20px;
     padding: 10px;
+    text-align: center;
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #eee;
@@ -120,14 +121,26 @@ nav a {
     background-color: #2d3249;
 }
 
+.place-card h1,
+.place-card p,
+.place-card button {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
 #theme-toggle {
     border: none;
     background-color: transparent;
 }
 
-.login-button {
+.login-button, .details-button {
     padding: 11px 16px;
     color: #fff;
+    border: none;
     border-radius: 6px;
-    background-color: #7a50ee;
+    background-color: #ff4949;
+}
+.login-button:hover, .details-button:hover {
+    cursor: pointer;
+    background-color: #ff0000;
 }
