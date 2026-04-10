@@ -117,6 +117,9 @@ class ReviewResource(Resource):
                 if hasattr(e, 'httpcode'):
                     return {'error': str(e)}, e.httpcode
 
+        # Return empty array if no reviews
+        return []
+
     @api.expect(review_model)
     @api.response(200, 'Review updated successfully')
     @api.response(404, 'Review not found')
