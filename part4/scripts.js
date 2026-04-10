@@ -23,6 +23,14 @@ async function loginUser(email, password) {
   }
 }
 
+function getPlaceIdFromURL() {
+    // Extract the place ID from window.location.search
+    // Your code here
+
+  let params = new URLSearchParams(document.location.search)
+  return params.get('id')
+}
+
 function checkAuthentication() {
     const token = getCookie('token')
     const loginLink = document.getElementById('login-link')
@@ -31,8 +39,12 @@ function checkAuthentication() {
         loginLink.style.display = 'block'
     } else {
         loginLink.style.display = 'none'
-        // Fetch places data if the user is authenticated
-        fetchPlaces(token)
+
+        if (document.location.pathname.endsWith('/index.html')) {
+          fetchPlaces(token)
+        } else if (document.location.pathname.endsWith('/place.html')) {
+          fetchPlaceDetails(token, getPlaceIdFromURL())
+        }
     }
 }
 
@@ -87,6 +99,9 @@ function displayPlaces(places) {
 
     details.innerText = 'View Details'
     details.classList.add('details-button')
+    details.addEventListener('click', () => {
+      window.location.href = `place.html?id=${place['id']}`
+    })
 
     div.appendChild(title)
     div.appendChild(price)
@@ -96,6 +111,45 @@ function displayPlaces(places) {
 
   })
 
+}
+
+async function fetchPlaceDetails(token, placeId) {
+    // Make a GET request to fetch place details
+    // Include the token in the Authorization header
+    // Handle the response and pass the data to displayPlaceDetails function
+
+  const response = await fetch(`${API_URL}/places/${placeId}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    displayPlaceDetails(data)
+  }
+}
+
+function displayPlaceDetails(place) {
+    // Clear the current content of the place details section
+    // Create elements to display the place details (name, description, price, amenities and reviews)
+    // Append the created elements to the place details section
+
+  const placeDetails = document.getElementById('place-details')
+
+  const title = document.createElement('h1')
+  const description = document.createElement('p')
+  const price = document.createElement('h2')
+
+  title.innerText = place['title']
+  description.innerText = place['description']
+  price.innerText = `${place['price']}$ /Night`
+
+  placeDetails.appendChild(title)
+  placeDetails.appendChild(description)
+  placeDetails.appendChild(price)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -144,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (document.location.pathname.endsWith('/index.html')) {
+  if (!document.location.pathname.endsWith('/login.html')) {
     checkAuthentication()
   }
 
