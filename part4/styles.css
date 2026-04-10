@@ -165,9 +165,11 @@ nav div {
     margin: 24px;
     display: flex;
     gap: 30px;
+    justify-content: center;
 }
 
 .details-review-container #place-details {
+    width: 320px;
     text-align: center;
     padding: 20px;
     background-color: #ddd;
@@ -181,4 +183,24 @@ nav div {
 
 .dark .details-review-container #place-details {
     background-color: #2d3249;
+}
+
+.review-details {
+    width: 620px;
+    padding: 20px;
+    margin-bottom: 12px;
+    background-color: #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+.review-details h1,
+.review-details p {
+    margin-bottom: 4px;
+}
+
+.star-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
 }
