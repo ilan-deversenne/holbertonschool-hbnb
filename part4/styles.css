@@ -195,6 +195,10 @@ nav div {
     border: 1px solid #ddd;
     text-align: center;
 }
+.dark .review-details {
+    background-color: #2d3249;
+}
+
 .review-details h1,
 .review-details p {
     margin-bottom: 4px;
