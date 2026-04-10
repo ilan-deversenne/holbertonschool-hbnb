@@ -103,6 +103,7 @@ class ReviewResource(Resource):
         except NotFound:
             try:
                 reviews = facade.get_reviews_by_place(review_id)
+
                 return [{
                     'id': review.id,
                     'text': review.text,
@@ -114,10 +115,14 @@ class ReviewResource(Resource):
                 } for review in reviews]
 
             except Exception as e:
+                print(e)
+
                 if hasattr(e, 'httpcode'):
                     return {'error': str(e)}, e.httpcode
 
         except Exception as e:
+                print(e)
+
                 if hasattr(e, 'httpcode'):
                     return {'error': str(e)}, e.httpcode
 
