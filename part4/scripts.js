@@ -3,7 +3,7 @@
   Please, follow the project instructions to complete the tasks.
 */
 
-const API_URL = 'http://localhost:5000/api/v1';
+const API_URL = 'http://localhost:5000/api/v1'
 
 async function loginUser(email, password) {
   const response = await fetch(`${API_URL}/auth/login`, {
@@ -12,27 +12,27 @@ async function loginUser(email, password) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ email, password })
-  });
+  })
 
   if (response.ok) {
-    const data = await response.json();
-    document.cookie = `token=${data.access_token}; path=/`;
-    window.location.href = 'index.html';
+    const data = await response.json()
+    document.cookie = `token=${data.access_token}; path=/`
+    window.location.href = 'index.html'
   } else {
-    alert('Login failed: ' + response.statusText);
+    alert('Login failed: ' + response.statusText)
   }
 }
 
 function checkAuthentication() {
-    const token = getCookie('token');
-    const loginLink = document.getElementById('login-link');
+    const token = getCookie('token')
+    const loginLink = document.getElementById('login-link')
 
     if (!token) {
-        loginLink.style.display = 'block';
+        loginLink.style.display = 'block'
     } else {
-        loginLink.style.display = 'none';
+        loginLink.style.display = 'none'
         // Fetch places data if the user is authenticated
-        fetchPlaces(token);
+        fetchPlaces(token)
     }
 }
 
@@ -61,67 +61,91 @@ async function fetchPlaces(token) {
   })
 
   if (response.ok) {
-    const data = await response.json();
-    data.forEach(place => {
-      console.log(place)
-    })
+    const data = await response.json()
+    displayPlaces(data)
   }
 }
+
 function displayPlaces(places) {
-    // Clear the current content of the places list
-    // Iterate over the places data
-    // For each place, create a div element and set its content
-    // Append the created element to the places list
+  // Clear the current content of the places list
+  // Iterate over the places data
+  // For each place, create a div element and set its content
+  // Append the created element to the places list
+
+  const placesList = document.getElementById('places-list')
+
+  places.forEach(place => {
+    let div = document.createElement('div')
+    let title = document.createElement('h1')
+    let price = document.createElement('p')
+    let details = document.createElement('button')
+
+    div.classList.add('place-card')
+
+    title.innerText = place['title']
+    price.innerText = `${place['price']} /Night`
+
+    details.innerText = 'View Details'
+    details.classList.add('details-button')
+
+    div.appendChild(title)
+    div.appendChild(price)
+    div.appendChild(details)
+
+    placesList.appendChild(div)
+
+  })
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('login-form');
-  const passwordInput = document.getElementById('password');
-  const togglePassword = document.getElementById('toggle-password');
+  const loginForm = document.getElementById('login-form')
+  const passwordInput = document.getElementById('password')
+  const togglePassword = document.getElementById('toggle-password')
 
   if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      event.preventDefault()
+      const email = document.getElementById('email').value
+      const password = document.getElementById('password').value
 
-      loginUser(email, password);
+      loginUser(email, password)
     });
   }
 
   if (togglePassword) {
     togglePassword.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type');
-      passwordInput.setAttribute('type', type === 'password' ? 'text' : 'password');
-    });
+      const type = passwordInput.getAttribute('type')
+      passwordInput.setAttribute('type', type === 'password' ? 'text' : 'password')
+    })
   }
 
-  const themeToggle = document.getElementById('theme-toggle');
+  const themeToggle = document.getElementById('theme-toggle')
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-      localStorage.setItem('theme', localStorage.getItem('theme') === 'dark' ? 'light' : 'dark');
-      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', localStorage.getItem('theme') === 'dark' ? 'light' : 'dark')
+      document.body.classList.toggle('dark')
 
-      let img = themeToggle.querySelector('img');
+      let img = themeToggle.querySelector('img')
       if (img) {
         if (document.body.classList.contains('dark')) {
-          img.src = 'images/moon.png';
+          img.src = 'images/moon.png'
         }else {
-          img.src = 'images/sun.png';
+          img.src = 'images/sun.png'
         }
       }
     });
   }
   if (localStorage.getItem('theme') === 'dark') {
-    img = themeToggle.querySelector('img');
-    document.body.classList.add('dark');
+    img = themeToggle.querySelector('img')
+    document.body.classList.add('dark')
     if (img) {
-      img.src = 'images/moon.png';
+      img.src = 'images/moon.png'
     }
   }
 
   if (document.location.pathname.endsWith('/index.html')) {
-    checkAuthentication();
+    checkAuthentication()
   }
 
-});
+})
