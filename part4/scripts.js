@@ -6,7 +6,7 @@
 const API_URL = 'http://localhost:5000/api/v1';
 
 async function loginUser(email, password) {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -21,6 +21,57 @@ async function loginUser(email, password) {
   } else {
     alert('Login failed: ' + response.statusText);
   }
+}
+
+function checkAuthentication() {
+    const token = getCookie('token');
+    const loginLink = document.getElementById('login-link');
+
+    if (!token) {
+        loginLink.style.display = 'block';
+    } else {
+        loginLink.style.display = 'none';
+        // Fetch places data if the user is authenticated
+        fetchPlaces(token);
+    }
+}
+
+function getCookie(name) {
+    // Function to get a cookie value by its name
+    // Your code here
+
+    const regex = new RegExp(`(^| )${name}=([^;]+)`)
+    const match = document.cookie.match(regex)
+    if (match) {
+      return match[2]
+    }
+}
+
+async function fetchPlaces(token) {
+  // Make a GET request to fetch places data
+  // Include the token in the Authorization header
+  // Handle the response and pass the data to displayPlaces function
+
+  const response = await fetch(`${API_URL}/places/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  if (response.ok) {
+    const data = await response.json();
+    data.forEach(place => {
+      console.log(place)
+    })
+  }
+}
+function displayPlaces(places) {
+    // Clear the current content of the places list
+    // Iterate over the places data
+    // For each place, create a div element and set its content
+    // Append the created element to the places list
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -67,6 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (img) {
       img.src = 'images/moon.png';
     }
+  }
+
+  if (document.location.pathname.endsWith('/index.html')) {
+    checkAuthentication();
   }
 
 });
