@@ -83,7 +83,7 @@ function displayPlaces(places) {
     div.classList.add('place-card')
 
     title.innerText = place['title']
-    price.innerText = `${place['price']} /Night`
+    price.innerText = `${place['price']}$ /Night`
 
     details.innerText = 'View Details'
     details.classList.add('details-button')
