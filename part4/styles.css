@@ -31,11 +31,17 @@ header {
 
 nav {
     display: flex;
+    justify-content: space-between;
 }
 nav a {
     color: #000;
     text-decoration: none;
     margin-left: 1rem;
+}
+
+nav div {
+    display: flex;
+    gap: 15px;
 }
 
 .dark nav a {
@@ -133,16 +139,46 @@ nav a {
     border: none;
     background-color: transparent;
 }
+#theme-toggle:hover {
+    cursor: pointer;
+}
 
-.login-button, .details-button {
+#login-link, .login-button, .details-button {
     padding: 11px 16px;
     color: #fff;
     border: none;
     border-radius: 6px;
     background-color: #ff4949;
 }
-.login-button:hover, .details-button:hover {
+#login-link:hover, .login-button:hover, .details-button:hover {
     cursor: pointer;
     transition: 0.6s;
     background-color: #ff0000;
+}
+
+#login-link {
+    padding: 12px 16px;
+    line-height: 1.35rem;
+}
+
+.details-review-container {
+    margin: 24px;
+    display: flex;
+    gap: 30px;
+}
+
+.details-review-container #place-details {
+    text-align: center;
+    padding: 20px;
+    background-color: #ddd;
+    border-radius: 8px;
+}
+.details-review-container #place-details h1,
+.details-review-container #place-details p,
+.details-review-container #place-details h2 {
+    margin-top: 8px;
+}
+
+.dark .details-review-container #place-details {
+    background-color: #2d3249;
 }
