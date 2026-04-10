@@ -172,7 +172,8 @@ nav div {
     width: 320px;
     text-align: center;
     padding: 20px;
-    background-color: #ddd;
+    background-color: #eee;
+    border: 1px solid #ddd;
     border-radius: 8px;
 }
 .details-review-container #place-details h1,
@@ -189,8 +190,9 @@ nav div {
     width: 620px;
     padding: 20px;
     margin-bottom: 12px;
-    background-color: #ddd;
     border-radius: 8px;
+    background-color: #eee;
+    border: 1px solid #ddd;
     text-align: center;
 }
 .review-details h1,
