@@ -5,6 +5,12 @@
 
 const API_URL = 'http://localhost:5000/api/v1'
 
+/*
+  Login user
+
+  email: Account email
+  password: Account password
+  */
 async function loginUser(email, password) {
   const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
@@ -23,6 +29,9 @@ async function loginUser(email, password) {
   }
 }
 
+/*
+  Get place id from url (id)
+  */
 function getPlaceIdFromURL() {
     // Extract the place ID from window.location.search
     // Your code here
@@ -43,7 +52,10 @@ function checkAuthentication() {
         if (document.location.pathname.endsWith('/index.html')) {
           fetchPlaces(token)
         } else if (document.location.pathname.endsWith('/place.html')) {
-          fetchPlaceDetails(token, getPlaceIdFromURL())
+          const placeId = getPlaceIdFromURL()
+
+          fetchPlaceDetails(token, placeId)
+          fetchPlaceReviews(token, placeId)
         }
     }
 }
@@ -113,6 +125,12 @@ function displayPlaces(places) {
 
 }
 
+/*
+  Fetch place details
+
+  token: Authorization token
+  placeId: Id of place to fetch
+  */
 async function fetchPlaceDetails(token, placeId) {
     // Make a GET request to fetch place details
     // Include the token in the Authorization header
@@ -132,6 +150,11 @@ async function fetchPlaceDetails(token, placeId) {
   }
 }
 
+/*
+  Display fetched place details
+
+  place: Array that contains fetched place data
+  */
 function displayPlaceDetails(place) {
     // Clear the current content of the place details section
     // Create elements to display the place details (name, description, price, amenities and reviews)
@@ -150,6 +173,67 @@ function displayPlaceDetails(place) {
   placeDetails.appendChild(title)
   placeDetails.appendChild(description)
   placeDetails.appendChild(price)
+}
+
+/*
+  Fetch reviews
+
+  token: Authorization token
+  placeId: Id of place to fetch
+  */
+async function fetchPlaceReviews(token, placeId) {
+  const response = await fetch(`${API_URL}/reviews/${placeId}`, {
+    'method': 'GET',
+    'headers': {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  if (response.ok) {
+    const data = await response.json()
+    displayPlaceReviews(data)
+  }
+}
+
+/*
+  Display fetched reviews
+
+  reviews: Array that contains reviews
+  */
+function displayPlaceReviews(reviews) {
+  console.log(reviews)
+
+  const reviewsSection = document.getElementById('reviews')
+
+  reviews.forEach(review => {
+    let div = document.createElement('div')
+    let author = document.createElement('h1')
+    let text = document.createElement('p')
+
+    div.classList.add('review-details')
+
+    author.innerText = ':3'
+    text.innerText = review['text']
+
+    let starContainer = document.createElement('div')
+    starContainer.classList.add('star-container')
+
+    for(let i = 0; i < 5; i++) {
+      let star = document.createElement('img')
+      const filename = i < review['rating'] ? 'star_bg' : 'star'
+      star.src = `images/${filename}.png`
+      star.width = '12'
+
+      starContainer.appendChild(star)
+    }
+
+    div.appendChild(author)
+    div.appendChild(text)
+    div.appendChild(starContainer)
+
+    reviewsSection.appendChild(div)
+  })
 }
 
 document.addEventListener('DOMContentLoaded', () => {
