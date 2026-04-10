@@ -27,14 +27,14 @@ class Review(BaseModel):
         self.user = user
 
     @validates("text")
-    def validate_text(self, value: str):
+    def validate_text(self, key: str, value: str):
         if len(value.strip()) < 8:
             raise BadRequest('Invalid input data')
 
         return value
 
     @validates("rating")
-    def validate_rating(self, value: int):
+    def validate_rating(self, key: str, value: int):
         if value < 1 or value > 5:
             raise BadRequest('Invalid input data')
 
