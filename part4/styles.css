@@ -143,14 +143,14 @@ nav div {
     cursor: pointer;
 }
 
-#login-link, .login-button, .details-button {
+#add-review button, #login-link, .login-button, .details-button {
     padding: 11px 16px;
     color: #fff;
     border: none;
     border-radius: 6px;
     background-color: #ff4949;
 }
-#login-link:hover, .login-button:hover, .details-button:hover {
+#add-review button:hover, #login-link:hover, .login-button:hover, .details-button:hover {
     cursor: pointer;
     transition: 0.6s;
     background-color: #ff0000;
@@ -209,4 +209,31 @@ nav div {
     display: flex;
     gap: 5px;
     justify-content: center;
+}
+
+#add-review {
+    margin-top: 36px;
+}
+#add-review h2 {
+    margin-bottom: 16px;
+}
+#add-review textarea {
+    padding: 4px;
+    width: 620px;
+    display: block;
+    resize: vertical;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+#add-review button {
+    margin-top: 16px;
+}
+
+#add-review .star-container {
+    justify-content: start;
+    margin-bottom: 8px;
+}
+#add-review .star-container img:hover {
+    cursor: pointer;
 }
