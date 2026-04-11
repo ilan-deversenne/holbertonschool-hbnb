@@ -183,8 +183,8 @@ function displayPlaceDetails(place) {
   */
 async function fetchPlaceReviews(token, placeId) {
   const response = await fetch(`${API_URL}/reviews/${placeId}`, {
-    'method': 'GET',
-    'headers': {
+    method: 'GET',
+    headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
@@ -221,7 +221,10 @@ function displayPlaceReviews(reviews) {
 
     for(let i = 0; i < 5; i++) {
       let star = document.createElement('img')
-      const filename = i < review['rating'] ? 'star_bg' : 'star'
+      let filename = i < review['rating'] ? 'star_bg' : 'star'
+      if (localStorage.getItem('theme') === 'dark') {
+        filename = `${filename}_white`
+      }
       star.src = `images/${filename}.png`
       star.width = '12'
 
@@ -236,6 +239,45 @@ function displayPlaceReviews(reviews) {
   })
 }
 
+function setStars(stars) {
+  for(let i = 1; i < 6; i++) {
+    let star = document.getElementById(`star-${i}`)
+    star.src = 'images/star.png'
+    if (localStorage.getItem('theme') === 'dark') {
+      star.src = 'images/star_white.png'
+    }
+  }
+
+  for(let i = 1; i <= stars; i++) {
+    let star = document.getElementById(`star-${i}`)
+    star.src = 'images/star_bg.png'
+    if (localStorage.getItem('theme') === 'dark') {
+      star.src = 'images/star_bg_white.png'
+    }
+  }
+
+  document.getElementById('rating').value = stars
+}
+
+async function add_review(token, text, rating, placeId) {
+  const response = await fetch(`${API_URL}/reviews/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      'text': text,
+      'rating': parseInt(rating),
+      'place_id': placeId
+    })
+  })
+
+  if (!response.ok) {
+    alert(`Failed to add review`)
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form')
   const passwordInput = document.getElementById('password')
@@ -248,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('password').value
 
       loginUser(email, password)
-    });
+    })
   }
 
   if (togglePassword) {
@@ -272,6 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
           img.src = 'images/sun.png'
         }
       }
+
+      if (document.location.pathname.endsWith('/place.html')) {
+        setStars(document.getElementById('rating'))
+      }
     });
   }
   if (localStorage.getItem('theme') === 'dark') {
@@ -284,6 +330,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!document.location.pathname.endsWith('/login.html')) {
     checkAuthentication()
+  }
+
+  if (document.location.pathname.endsWith('/place.html')) {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.getElementById(`star-1`).src = 'images/star_bg_white.png'
+      for(let i = 2; i < 6; i++) {
+        let star = document.getElementById(`star-${i}`)
+        star.src = 'images/star_white.png'
+      }
+    }
+
+    for(let i = 1; i < 6; i++) {
+      let star = document.getElementById(`star-${i}`)
+
+      star.addEventListener('click', () => {
+        setStars(i)
+      })
+    }
+
+    const reviewForm = document.getElementById('review-form')
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        const token = getCookie('token')
+        const text = document.getElementById('review-text').value
+        const rating = document.getElementById('rating').value
+        const placeId = getPlaceIdFromURL()
+
+        add_review(token, text, rating, placeId)
+      })
+    }
   }
 
 })
