@@ -315,6 +315,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      const logo = document.querySelector('.logo')
+      if (logo) {
+        if (document.body.classList.contains('dark')) {
+          logo.src = 'images/logo_white.png'
+        } else {
+          logo.src = 'images/logo.png'
+        }
+      }
+
       if (document.location.pathname.endsWith('/place.html')) {
         setStars(document.getElementById('rating'))
       }
@@ -325,6 +334,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('dark')
     if (img) {
       img.src = 'images/moon.png'
+    }
+
+    const logo = document.querySelector('.logo')
+    if (logo) {
+      logo.src = 'images/logo_white.png'
     }
   }
 
