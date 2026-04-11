@@ -29,17 +29,25 @@ class ReviewList(Resource):
         if not actual_user:
             return {'error': 'Unauthorized user'}, 401
 
-        # user can't review is own place
-        if actual_user == data['user_id']:
+        place = facade.get_place(data['place_id'])
+        if not place:
+            return {'error': 'Invalid input data'}, 400
+
+        if place.user_id == actual_user:
             return {'error': 'You cannot review your own place.'}, 400
 
         # verify the user has not already review the place
+        reviews = facade.get_reviews_by_place(place.id)
+        for review in reviews:
+            if review.user.id == actual_user:
+                return {'error': 'You already reviewed this place.'}, 400
 
         def test(pair):
             key, value = pair
             return key in dict_review_model.keys()
 
         try:
+            data['user_id'] = actual_user
             review = facade.create_review(dict(filter(test, data.items())))
 
             return {
