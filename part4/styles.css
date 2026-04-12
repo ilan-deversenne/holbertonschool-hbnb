@@ -161,14 +161,28 @@ nav div {
     cursor: pointer;
 }
 
-#add-review button, #login-link, .login-button, .details-button {
+.review-page-container {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+#reviewing-title {
+    text-align: center;
+    margin-top: 40px;
+}
+
+#review-form {
+    display: block;
+}
+
+#review-form button, #login-link, .login-button, .details-button {
     padding: 11px 16px;
     color: #fff;
     border: none;
     border-radius: 6px;
     background-color: #ff4949;
 }
-#add-review button:hover, #login-link:hover, .login-button:hover, .details-button:hover {
+#review-form button:hover, #login-link:hover, .login-button:hover, .details-button:hover {
     cursor: pointer;
     transition: 0.6s;
     background-color: #ff0000;

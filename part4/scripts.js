@@ -45,9 +45,13 @@ function checkAuthentication() {
     const loginLink = document.getElementById('login-link')
 
     if (!token) {
+      if (loginLink) {
         loginLink.style.display = 'block'
+      }
     } else {
-        loginLink.style.display = 'none'
+        if (loginLink) {
+          loginLink.style.display = 'none'
+        }
 
         if (document.location.pathname.endsWith('/index.html')) {
           fetchPlaces(token)
@@ -56,6 +60,9 @@ function checkAuthentication() {
 
           fetchPlaceDetails(token, placeId)
           fetchPlaceReviews(token, placeId)
+        } else if (document.location.pathname.endsWith('/add_review.html')) {
+          const placeId = getPlaceIdFromURL()
+          fetchPlaceDetails(token, placeId)
         }
     }
 }
@@ -161,7 +168,16 @@ async function fetchPlaceDetails(token, placeId) {
       data['last_name'] = userData['last_name']
     }
 
-    displayPlaceDetails(data)
+    if (document.location.pathname.endsWith('/place.html')) {
+      displayPlaceDetails(data)
+    }
+
+    if (document.location.pathname.endsWith('/add_review.html')) {
+      const placeTitle = document.getElementById('place-title')
+      if (placeTitle) {
+        placeTitle.innerText = data['title']
+      }
+    }
   }
 }
 
@@ -362,7 +378,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      if (document.location.pathname.endsWith('/place.html')) {
+      if (document.location.pathname.endsWith('/place.html') ||
+          document.location.pathname.endsWith('/add_review.html')) {
+
         setStars(document.getElementById('rating'))
       }
     });
@@ -384,7 +402,9 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthentication()
   }
 
-  if (document.location.pathname.endsWith('/place.html')) {
+  if (document.location.pathname.endsWith('/place.html') ||
+      document.location.pathname.endsWith('/add_review.html')) {
+
     if (localStorage.getItem('theme') === 'dark') {
       document.getElementById(`star-1`).src = 'images/star_bg_white.png'
       for(let i = 2; i < 6; i++) {
