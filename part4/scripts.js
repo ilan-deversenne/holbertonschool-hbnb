@@ -193,7 +193,7 @@ async function fetchPlaceReviews(token, placeId) {
   if (response.ok) {
     const data = await response.json();
 
-    data.map(async review => {
+    await Promise.all(data.map(async review => {
       const response2 = await fetch(`${API_URL}/users/${review['user_id']}`, {
         method: 'GET',
         headers: {
@@ -207,7 +207,7 @@ async function fetchPlaceReviews(token, placeId) {
         review['first_name'] = data2['first_name']
         review['last_name'] = data2['last_name']
       }
-    })
+    }))
 
     displayPlaceReviews(data)
   }
@@ -230,7 +230,7 @@ function displayPlaceReviews(reviews) {
 
     div.classList.add('review-details')
 
-    author.innerText = ':3'
+    author.innerText = `${review['first_name']} ${review['last_name']}`
     text.innerText = review['text']
 
     let starContainer = document.createElement('div')
