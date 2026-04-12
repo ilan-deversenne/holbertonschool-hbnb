@@ -191,7 +191,24 @@ async function fetchPlaceReviews(token, placeId) {
   })
 
   if (response.ok) {
-    const data = await response.json()
+    const data = await response.json();
+
+    data.map(async review => {
+      const response2 = await fetch(`${API_URL}/users/${review['user_id']}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response2.ok) {
+        const data2 = await response2.json()
+        review['first_name'] = data2['first_name']
+        review['last_name'] = data2['last_name']
+      }
+    })
+
     displayPlaceReviews(data)
   }
 }
