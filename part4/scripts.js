@@ -104,8 +104,18 @@ function displayPlaces(places) {
   // Append the created element to the places list
 
   const placesList = document.getElementById('places-list')
+  const priceFilter = document.getElementById('price-filter')
 
   places.forEach(place => {
+
+    if (priceFilter) {
+      if (priceFilter.value != 'all') {
+        if (place['price'] > priceFilter.value) {
+          return
+        }
+      }
+    }
+
     let div = document.createElement('div')
     let title = document.createElement('h1')
     let price = document.createElement('p')
@@ -434,6 +444,20 @@ document.addEventListener('DOMContentLoaded', () => {
         add_review(token, text, rating, placeId)
       })
     }
+  }
+
+  const priceFilter = document.getElementById('price-filter')
+  if (priceFilter) {
+    priceFilter.addEventListener('change', (event) => {
+      // Get the selected price value
+      // Iterate over the places and show/hide them based on the selected price
+
+      const placeList = document.getElementById('places-list')
+      if (placeList) {
+        placeList.innerHTML = ''
+        fetchPlaces()
+      }
+    })
   }
 
 })
