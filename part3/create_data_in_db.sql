@@ -43,7 +43,9 @@ INSERT INTO users (
     `first_name`,
     `last_name`,
     `password`,
-    `is_admin`
+    `is_admin`,
+    `created_at`,
+    `updated_at`
 )
 VALUES (
     '36c9050e-ddd3-4c3b-9731-9f487208bbc1',
@@ -51,7 +53,9 @@ VALUES (
     'Admin',
     'HBnB',
     '$2a$12$iIY0XSc0TztcyhkfttsGtO/gUTorunCzu/YE8CpwxwD2wvHimahZ6',
-    TRUE
+    TRUE,
+    '2026-04-12 20:55:29.192164',
+    '2026-04-12 20:55:29.192164'
 );
 
 INSERT INTO amenities (
