@@ -73,6 +73,15 @@ nav div {
     border: 2px solid #ddd;
 }
 
+.dark #login-form input {
+    color: #fff;
+    background-color: #363d56;
+    border: 2px solid #3f4761;
+}
+.dark #login-form input:focus {
+    border: 2px solid #4a5370;
+}
+
 #login-form button {
     margin-top: 1rem;
     width: 180px;
