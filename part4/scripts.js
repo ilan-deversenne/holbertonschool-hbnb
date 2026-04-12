@@ -146,6 +146,21 @@ async function fetchPlaceDetails(token, placeId) {
 
   if (response.ok) {
     const data = await response.json()
+
+    const responseUser = await fetch(`${API_URL}/users/${data['owner_id']}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (responseUser.ok) {
+      const userData = await responseUser.json()
+      data['first_name'] = userData['first_name']
+      data['last_name'] = userData['last_name']
+    }
+
     displayPlaceDetails(data)
   }
 }
@@ -162,14 +177,17 @@ function displayPlaceDetails(place) {
 
   const placeDetails = document.getElementById('place-details')
 
-  const title = document.createElement('h1')
+  const owner = document.createElement('h1')
+  const title = document.createElement('h2')
   const description = document.createElement('p')
   const price = document.createElement('h2')
 
+  owner.innerText = `${place['first_name']} ${place['last_name']}`
   title.innerText = place['title']
   description.innerText = place['description']
   price.innerText = `${place['price']}$ /Night`
 
+  placeDetails.appendChild(owner)
   placeDetails.appendChild(title)
   placeDetails.appendChild(description)
   placeDetails.appendChild(price)
