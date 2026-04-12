@@ -72,3 +72,9 @@ python3 run.py
 Email: admin@hbnb.com
 Password: admin1234
 ```
+
+## Credits
+I made Parts 1, 2, and 3 of this project in collaboration with [aragoza](https://github.com/aragoza).
+
+---
+**Some icons used in this project are from [flaticon.com](https://www.flaticon.com/).**
