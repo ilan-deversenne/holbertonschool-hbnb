@@ -181,16 +181,19 @@ function displayPlaceDetails(place) {
   const title = document.createElement('h2')
   const description = document.createElement('p')
   const price = document.createElement('h2')
+  const amenities = document.createElement('p')
 
   owner.innerText = `${place['first_name']} ${place['last_name']}`
   title.innerText = place['title']
   description.innerText = place['description']
   price.innerText = `${place['price']}$ /Night`
+  amenities.innerText = place['amenities'].map(A => A.name).join(', ')
 
   placeDetails.appendChild(owner)
   placeDetails.appendChild(title)
   placeDetails.appendChild(description)
   placeDetails.appendChild(price)
+  placeDetails.appendChild(amenities)
 }
 
 /*
