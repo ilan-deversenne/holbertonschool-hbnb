@@ -61,9 +61,18 @@ nav div {
     margin-bottom: 1rem;
 }
 #login-form input {
-    padding: 0.25rem;
+    background-color: #fff;
+    padding: 0.5rem;
     font-size: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    border: 2px solid #eee;
 }
+#login-form input:focus {
+    border: 2px solid #ddd;
+}
+
 #login-form button {
     margin-top: 1rem;
     width: 180px;
